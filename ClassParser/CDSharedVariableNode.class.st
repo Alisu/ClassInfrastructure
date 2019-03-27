@@ -1,3 +1,6 @@
+"
+I represent a variable shared by instances of my class. (class variable)
+"
 Class {
 	#name : #CDSharedVariableNode,
 	#superclass : #CDSlotNode,

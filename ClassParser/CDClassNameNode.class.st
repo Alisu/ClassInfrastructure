@@ -1,3 +1,6 @@
+"
+I represent the name of classs, i may be removed in the future if i don't serve another purpose.
+"
 Class {
 	#name : #CDClassNameNode,
 	#superclass : #CDNode,

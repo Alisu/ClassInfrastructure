@@ -1,3 +1,6 @@
+"
+I represent a slot contain in a class. An instance variable for example.
+"
 Class {
 	#name : #CDSlotNode,
 	#superclass : #CDNode,

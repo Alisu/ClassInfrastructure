@@ -1,3 +1,6 @@
+"
+I represent a simple Trait. (no composition, alias, exclusion)
+"
 Class {
 	#name : #CDTraitNode,
 	#superclass : #CDAbstractTraitCompositionNode,

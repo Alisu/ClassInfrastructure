@@ -1,3 +1,6 @@
+"
+I represent a shared pool of a class. Shared are objects shared between classes.
+"
 Class {
 	#name : #CDSharedPoolNode,
 	#superclass : #CDNode,
