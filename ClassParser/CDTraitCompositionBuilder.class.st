@@ -1,3 +1,8 @@
+"
+I am in charge of building a Trait composition. 
+
+aTraitCompositionNode is composed of TraitNode.
+"
 Class {
 	#name : #CDTraitCompositionBuilder,
 	#superclass : #Object,
