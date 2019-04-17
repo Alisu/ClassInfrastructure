@@ -1,3 +1,6 @@
+"
+I am the Class Definition as a Node, i represent a class and contains all the information for class creation.
+"
 Class {
 	#name : #CDClassDefinitionNode,
 	#superclass : #CDPackagedBehaviorDefinitionNode,
