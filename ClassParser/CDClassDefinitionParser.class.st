@@ -73,7 +73,9 @@ CDClassDefinitionParser >> isInstanceSideDefinition: aRBMessageNode [
 
 { #category : #'as yet unclassified' }
 CDClassDefinitionParser >> isTraitDefinition: aRBMessageNode [ 
-	^aRBMessageNode receiver name = #Trait
+|nodeReceiver|
+nodeReceiver:=aRBMessageNode receiver. 
+	^nodeReceiver isLiteralNode ifFalse:[ nodeReceiver name = #Trait] ifTrue:false. 
 ]
 
 { #category : #accessing }
