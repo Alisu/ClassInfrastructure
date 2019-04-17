@@ -1,11 +1,10 @@
 Class {
 	#name : #CDClassDefinitionNode,
-	#superclass : #CDBehaviorDefinitionNode,
+	#superclass : #CDPackagedBehaviorDefinitionNode,
 	#instVars : [
 		'subclass',
 		'sharedSlotNodes',
 		'superclassNameNode',
-		'packageNameNode',
 		'sharedPools',
 		'superclassName'
 	],
@@ -18,37 +17,6 @@ CDClassDefinitionNode class >> on: aRBMessageNode [
 	^ self new
 		originalNode: aRBMessageNode;
 		yourself
-]
-
-{ #category : #accessing }
-CDClassDefinitionNode >> binding [ 
-	Transcript show: '.'.
-	^ self class environment associationAt: self className ifAbsent: [nil -> self].
-]
-
-{ #category : #testing }
-CDClassDefinitionNode >> isClassDefinition [
-	
-	^ true
-]
-
-{ #category : #accessing }
-CDClassDefinitionNode >> packageName [
-	
-	^ packageNameNode ifNotNil: [packageNameNode value asSymbol ]
-]
-
-{ #category : #accessing }
-CDClassDefinitionNode >> packageNameNode [
-	
-	^ packageNameNode
-]
-
-{ #category : #accessing }
-CDClassDefinitionNode >> packageNameNode: aNode astNode: astNode [
-
-	packageNameNode := aNode.
-	children add: aNode.
 ]
 
 { #category : #accessing }
@@ -90,6 +58,11 @@ CDClassDefinitionNode >> superclassName [
 ]
 
 { #category : #accessing }
+CDClassDefinitionNode >> superclassName: aString [
+	superclassName := aString
+]
+
+{ #category : #accessing }
 CDClassDefinitionNode >> superclassName: aName astNode: astNode [
 	
 	superclassName := aName.
@@ -101,4 +74,9 @@ CDClassDefinitionNode >> superclassName: aName astNode: astNode [
 CDClassDefinitionNode >> superclassNameNode [
 	
 	^ superclassNameNode
+]
+
+{ #category : #accessing }
+CDClassDefinitionNode >> superclassNameNode: anObject [
+	superclassNameNode := anObject
 ]

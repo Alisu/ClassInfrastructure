@@ -42,6 +42,11 @@ CDClassDefinitionParser >> beMetaclassDefinition [
 	classDefinition := CDMetaclassDefinitionNode new
 ]
 
+{ #category : #'as yet unclassified' }
+CDClassDefinitionParser >> beTraitDefinition [
+		classDefinition := CDTraitDefinitionNode new.
+]
+
 { #category : #accessing }
 CDClassDefinitionParser >> classVariableNames: aNode [ 
 	
@@ -64,6 +69,11 @@ CDClassDefinitionParser >> classVariableNames: aNode [
 CDClassDefinitionParser >> isInstanceSideDefinition: aRBMessageNode [
 	"Based on the Point or Point class structure, returns whether the definition is a class or instance side definition."
 	^ aRBMessageNode receiver isMessage not
+]
+
+{ #category : #'as yet unclassified' }
+CDClassDefinitionParser >> isTraitDefinition: aRBMessageNode [ 
+	^aRBMessageNode receiver name = #Trait
 ]
 
 { #category : #accessing }
@@ -151,9 +161,10 @@ CDClassDefinitionParser >> parseSelectorPart: aString withArgument: aNode [
 	
 	"We could do this with reflection, or with a dictionary and closures.
 	I chose to use a series of if for readability only."
-	
 	(#(variableWordSubclass: ephemeronSubclass: weakSubclass: variableByteSubclass: variableSubclass: immediateSubclass: #subclass:) includes: aString)
 		ifTrue: [ ^ self parseClassName: aNode withType: aString  ].
+	aString =	 #named:
+		ifTrue: [ ^ self parseTraitName: aNode withType: aString ].
 	aString =	 #instanceVariableNames:
 		ifTrue: [ ^ self parseInstanceVariablesFromNode: aNode ].
 	aString =	 #slots:
@@ -225,11 +236,29 @@ CDClassDefinitionParser >> parseTraitDefinitionFromNode: aNode [
 	classDefinition traitDefinition: traitComposition.
 ]
 
+{ #category : #'as yet unclassified' }
+CDClassDefinitionParser >> parseTraitName: aRBLiteralValueNode [ 
+	self parseClassName: aRBLiteralValueNode
+]
+
+{ #category : #'as yet unclassified' }
+CDClassDefinitionParser >> parseTraitName: aRBLiteralValueNode withType: aString [
+	self parseClassName: aRBLiteralValueNode withType: aString
+]
+
 { #category : #internal }
 CDClassDefinitionParser >> setAdequateClassDefinitionFrom: expressionTree [
 	"set a class or metaclass class definition as class definition object."
 	(self isInstanceSideDefinition: expressionTree)
-		ifTrue: [ self beClassDefinition ]
+		ifTrue: [
+			(self isTraitDefinition: expressionTree)
+			ifTrue:[
+				self beTraitDefinition
+				] 
+			ifFalse:[
+				self beClassDefinition
+				]
+			]
 		ifFalse: [ self beMetaclassDefinition ]
 ]
 
@@ -237,12 +266,14 @@ CDClassDefinitionParser >> setAdequateClassDefinitionFrom: expressionTree [
 CDClassDefinitionParser >> visitMessageNode: aRBMessageNode [
 
 	(self isInstanceSideDefinition: aRBMessageNode)
-		ifTrue: [ "instance "
-			self parseSuperclassNode: aRBMessageNode receiver.
+		ifTrue: [ 		
+			(self isTraitDefinition: aRBMessageNode)
+			ifFalse:[self parseSuperclassNode: aRBMessageNode receiver.]
 			 ]
-		ifFalse: [ "metaclass" 
+		ifFalse: [ 
 			self parseClassName: aRBMessageNode receiver receiver
 			].
+		
 	
 	
 	aRBMessageNode selectorParts
