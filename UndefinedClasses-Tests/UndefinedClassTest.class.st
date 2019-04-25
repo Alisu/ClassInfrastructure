@@ -1,7 +1,7 @@
 Class {
 	#name : #UndefinedClassTest,
 	#superclass : #TestCase,
-	#category : #'UndefinedClasses-Test'
+	#category : #'UndefinedClasses-Tests'
 }
 
 { #category : #tests }
@@ -28,11 +28,12 @@ UndefinedClassTest >> createClassFromDefinitionString: aString [
 	^ ClassDefinitionHandler createClassFromDefinitionString: aString
 ]
 
-{ #category : #setup }
+{ #category : #running }
 UndefinedClassTest >> tearDown [
-	super tearDown.
+
 	self class environment at: #Foo ifPresent: [ :c | c removeFromSystem ].
-	self class environment at: #ColoredFoo ifPresent: [ :c | c removeFromSystem ]
+	self class environment at: #ColoredFoo ifPresent: [ :c | c removeFromSystem ].
+	super tearDown.
 ]
 
 { #category : #tests }
