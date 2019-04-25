@@ -90,7 +90,7 @@ ShLayoutDefinition >> isBits [
 
 { #category : #accessing }
 ShLayoutDefinition >> layoutClass [
-	^ layoutClass ifNil: [ builder classNamed: #FixedLayout ]
+	^ layoutClass ifNil: [ FixedLayout ]
 ]
 
 { #category : #accessing }

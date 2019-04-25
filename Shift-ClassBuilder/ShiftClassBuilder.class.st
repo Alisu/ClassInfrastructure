@@ -61,8 +61,11 @@ ShiftClassBuilder >> addChangeComparer: aChangeComparer [
 
 { #category : #building }
 ShiftClassBuilder >> build [	
+
 	self tryToFillOldClass.
-	self detectBuilderEnhancer.
+	
+	self builderEnhancer ifNil:[
+	self detectBuilderEnhancer].
 	
 	self validateSuperclass.
 	self compareWithOldClass.
@@ -82,7 +85,7 @@ ShiftClassBuilder >> build [
 	self builderEnhancer afterMethodsCompiled: self.
 	
 	self installSlots.
-
+	
 	^ newClass
 ]
 
@@ -355,7 +358,7 @@ ShiftClassBuilder >> initialize [
 	
 	self useStrictSuperclass.
 	superclassName := #Object.
-	
+
 	layoutDefinition := ShLayoutDefinition new.
 	layoutDefinition builder: self.
 
@@ -363,6 +366,8 @@ ShiftClassBuilder >> initialize [
 	
 	changeComparers := OrderedCollection new.
 	changes := Set new.
+	
+	category := 'Unclassified'
 ]
 
 { #category : #building }
