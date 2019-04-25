@@ -99,38 +99,6 @@ ShiftClassBuilder >> buildEnvironment: anObject [
 	buildEnvironment := anObject
 ]
 
-{ #category : #classAST }
-ShiftClassBuilder >> buildFromAST: aCDClassDefinitionNode [ 
-
-	self name: aCDClassDefinitionNode className.
-	aCDClassDefinitionNode superclassName = #nil ifFalse:[
-	self superclass: (superclassResolver resolve: aCDClassDefinitionNode superclassName inEnv: buildEnvironment).]
-	ifTrue:[self superclass: nil].
-	
-	self layoutClass: FixedLayout.
-	aCDClassDefinitionNode isEphemeron ifTrue:[self layoutClass: EphemeronLayout].
-	aCDClassDefinitionNode isWeak ifTrue:[self layoutClass: WeakLayout].
-	aCDClassDefinitionNode isImmediate ifTrue:[self layoutClass: ImmediateLayout].
-	aCDClassDefinitionNode isVariable ifTrue:[self layoutClass: VariableLayout].
-	aCDClassDefinitionNode isWords ifTrue:[self layoutClass: WordLayout].
-	aCDClassDefinitionNode isBytes ifTrue:[self layoutClass: ByteLayout].
-	
-	self slots: (aCDClassDefinitionNode slots collect: [:e| e asSlot]).
-	self sharedVariables:(aCDClassDefinitionNode sharedSlots collect: [:e| e]).
-	self category: aCDClassDefinitionNode packageName.
-	self layoutDefinition sharedPools: (aCDClassDefinitionNode sharedPools collect: [:e | e name]).
-	
-	aCDClassDefinitionNode traitDefinition ifNotNil:[:traitDef| traitDef originalNode formattedCode.
-	self traitComposition: 
-	(self class compiler 
-	source: traitDef originalNode formattedCode;
-	"environment: buildEnvironment;"
-	evaluate)].
-
-	
-
-]
-
 { #category : #accessing }
 ShiftClassBuilder >> builderEnhancer [
 	^ builderEnhancer ifNil: [ self detectBuilderEnhancer ]
@@ -180,7 +148,6 @@ ShiftClassBuilder >> classTraitComposition [
 
 { #category : #accessing }
 ShiftClassBuilder >> classTraitComposition: aValue [
-
 	^ extensibleProperties at: #classTraitComposition put: aValue.
 ]
 
@@ -228,19 +195,6 @@ ShiftClassBuilder >> compileMethods [
 
 ]
 
-{ #category : #copying }
-ShiftClassBuilder >> copyClassSlotsFromExistingClass [
-	"Ugly helper method: I copy over the class slots of the class in my builder environment."
-
-	| anOldClass oldSlots |
-	
-	anOldClass := self environment at: name ifAbsent: [ ^ self ].
-	oldSlots := anOldClass class classLayout slotScope visibleSlots.
-	
-	self layoutDefinition copyClassSlotsIfNeeded: oldSlots
-
-]
-
 { #category : #building }
 ShiftClassBuilder >> copyOrganization [
 	newClass organization copyFrom: oldClass organization.
@@ -265,6 +219,7 @@ ShiftClassBuilder >> createClass [
 
 { #category : #building }
 ShiftClassBuilder >> createMetaclass [
+
 	newMetaclass := self builderEnhancer newMetaclass: self.
 	
 	self builderEnhancer 
@@ -278,7 +233,6 @@ ShiftClassBuilder >> createMetaclass [
 
 { #category : #building }
 ShiftClassBuilder >> createSharedVariables [
-
 	self builderEnhancer 
 		on: newClass
 		declareClassVariables: self layoutDefinition sharedVariables
@@ -336,11 +290,10 @@ ShiftClassBuilder >> fillFor: aClass [
 		name: aClass getName;
 		layoutClass: aClass classLayout class;
 		slots: aClass localSlots ;
-		sharedVariablesFromString: aClass classVariablesString;
+		sharedVariables: aClass classVariables;
 		sharedPools: aClass sharedPoolsString;
 		category: aClass category;
 		environment: aClass environment;
-		copyClassSlotsFromExistingClass;
 		oldClass: aClass.
 		
 	self builderEnhancer fillBuilder: self from: aClass.

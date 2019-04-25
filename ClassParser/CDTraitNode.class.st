@@ -10,6 +10,12 @@ Class {
 	#category : #'ClassParser-Model'
 }
 
+{ #category : #converting }
+CDTraitNode >> asCollectionTraitNode [
+
+	^OrderedCollection new add: self; yourself.
+]
+
 { #category : #testing }
 CDTraitNode >> isTraitNode [
 

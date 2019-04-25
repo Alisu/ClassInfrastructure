@@ -11,6 +11,11 @@ Class {
 }
 
 { #category : #accessing }
+CDTraitExclusionNode >> asCollectionTraitNode [
+	^OrderedCollection new add: self subject; yourself.
+]
+
+{ #category : #accessing }
 CDTraitExclusionNode >> exclusions: aCollection [ 
 	exclusions := aCollection
 ]

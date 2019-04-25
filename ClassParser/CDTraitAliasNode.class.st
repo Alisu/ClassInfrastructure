@@ -27,6 +27,11 @@ CDTraitAliasNode >> aliases: aCollection [
 	aliases := aCollection asDictionary
 ]
 
+{ #category : #accessing }
+CDTraitAliasNode >> asCollectionTraitNode [
+	^OrderedCollection new add: self subject; yourself.
+]
+
 { #category : #testing }
 CDTraitAliasNode >> isTraitAliasNode [
 	

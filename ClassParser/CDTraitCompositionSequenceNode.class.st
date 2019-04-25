@@ -10,6 +10,14 @@ Class {
 	#category : #'ClassParser-Model'
 }
 
+{ #category : #accessing }
+CDTraitCompositionSequenceNode >> asCollectionTraitNode [
+	|array|
+	array := OrderedCollection new.
+	self sequence do:[:each | array addAll: each asCollectionTraitNode].
+	^array
+]
+
 { #category : #testing }
 CDTraitCompositionSequenceNode >> isTraitSequenceNode [
 	

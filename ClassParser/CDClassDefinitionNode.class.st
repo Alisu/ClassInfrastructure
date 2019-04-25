@@ -23,6 +23,37 @@ CDClassDefinitionNode class >> on: aRBMessageNode [
 ]
 
 { #category : #accessing }
+CDClassDefinitionNode >> binding [ 
+	Transcript show: '.'.
+	^ self class environment associationAt: self className ifAbsent: [nil -> self].
+]
+
+{ #category : #testing }
+CDClassDefinitionNode >> isClassDefinition [
+	
+	^ true
+]
+
+{ #category : #accessing }
+CDClassDefinitionNode >> packageName [
+	
+	^ packageNameNode ifNotNil: [packageNameNode value asSymbol ]
+]
+
+{ #category : #accessing }
+CDClassDefinitionNode >> packageNameNode [
+	
+	^ packageNameNode
+]
+
+{ #category : #accessing }
+CDClassDefinitionNode >> packageNameNode: aNode astNode: astNode [
+
+	packageNameNode := aNode.
+	children add: aNode.
+]
+
+{ #category : #accessing }
 CDClassDefinitionNode >> sharedPools [
 	sharedPools ifNil: [ self sharedPools: OrderedCollection new. ].
 	^sharedPools
