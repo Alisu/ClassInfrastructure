@@ -15,6 +15,10 @@ Class {
 }
 
 { #category : #accessing }
+CDTraitCompositionNode >> asCollectionTraitNode [
+]
+
+{ #category : #accessing }
 CDTraitCompositionNode >> subject [ 
 	^subject
 ]

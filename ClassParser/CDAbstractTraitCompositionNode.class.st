@@ -31,6 +31,11 @@ CDAbstractTraitCompositionNode >> @ aCollection [
 		aliases: aCollection
 ]
 
+{ #category : #converting }
+CDAbstractTraitCompositionNode >> asCollectionTraitNode [
+	self subclassResponsibility 
+]
+
 { #category : #testing }
 CDAbstractTraitCompositionNode >> isTraitComposition [
 	
