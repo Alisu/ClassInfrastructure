@@ -496,12 +496,6 @@ ShiftClassBuilder >> useStrictSuperclass [
 	self superclassResolver: ClassResolverStrictResolve new.
 ]
 
-{ #category : #building }
-ShiftClassBuilder >> useUndefinedClass [
-"If i am use, the superResolver will resolve unknown superclass by creating an UndefinedClass with the expected superclassName"
-	self superclassResolver: ClassResolverUndefinedClass new.
-]
-
 { #category : #'private validating' }
 ShiftClassBuilder >> validateClassName [
 	name ifNil: [ ^self ].

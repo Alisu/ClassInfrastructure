@@ -231,10 +231,11 @@ CDClassDefinitionParser >> parseSuperclassNode: aSuperclassNode [
 
 { #category : #parsing }
 CDClassDefinitionParser >> parseTraitDefinitionFromNode: aNode [
-	
 	| traitComposition |
+	self flag:#TOREDO.
 	traitComposition := CDTraitCompositionBuilder new
-		buildFrom: aNode.	
+		buildFrom: aNode.
+	traitComposition isCollection ifTrue:[traitComposition ifEmpty:[traitComposition:= nil]].
 	classDefinition traitDefinition: traitComposition.
 ]
 
