@@ -1,3 +1,6 @@
+"
+This class contains tests for the creation of UndefinedTrait.
+"
 Class {
 	#name : #UndefinedTraitTest,
 	#superclass : #TestCase,
@@ -6,6 +9,17 @@ Class {
 	],
 	#category : #'UndefinedClasses-Tests'
 }
+
+{ #category : #'as yet unclassified' }
+UndefinedTraitTest >> aDefinedTrait [
+	^TAssertable 
+]
+
+{ #category : #asserting }
+UndefinedTraitTest >> assertMetaclassClassIsMetaclassForTrait: aTrait [
+
+	^self assert: aTrait class class equals: MetaclassForTraits.
+]
 
 { #category : #running }
 UndefinedTraitTest >> setUp [
@@ -34,9 +48,24 @@ UndefinedTraitTest >> testCreateTwoUndefinedTraitOfSameNameShouldBeSameTrait [
 ]
 
 { #category : #tests }
+UndefinedTraitTest >> testDefineUndefinedTrait [
+
+	| tfoo |
+	tfoo := Trait named: #TTest.
+	self assert: tfoo == undefTrait.
+	self assert: undefTrait isDefined.
+]
+
+{ #category : #tests }
 UndefinedTraitTest >> testDefinedTraitIsNotUndefined [
 
 	self deny: Object isUndefined
+]
+
+{ #category : #tests }
+UndefinedTraitTest >> testMetaclassOfUndefinedTraitIsDefined [
+
+	self assert: undefTrait class isDefined
 ]
 
 { #category : #tests }

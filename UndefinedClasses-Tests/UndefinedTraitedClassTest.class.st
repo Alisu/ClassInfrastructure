@@ -1,3 +1,7 @@
+"
+This class contains tests for class using UndefinedTrait.
+UndefinedTrait should not have instance variable.
+"
 Class {
 	#name : #UndefinedTraitedClassTest,
 	#superclass : #UndefinedTraitTest,
@@ -6,6 +10,11 @@ Class {
 	],
 	#category : #'UndefinedClasses-Tests'
 }
+
+{ #category : #'as yet unclassified' }
+UndefinedTraitedClassTest >> assertMetaclassClassIsTraitedMetaclass: aClass [
+	^self assert: aClass class class equals: TraitedMetaclass
+]
 
 { #category : #running }
 UndefinedTraitedClassTest >> setUp [
@@ -23,6 +32,78 @@ UndefinedTraitedClassTest >> tearDown [
 	self class environment at: #SomeTraitedClass ifPresent: [ :c | c removeFromSystem ].
 	super tearDown.
 	
+]
+
+{ #category : #tests }
+UndefinedTraitedClassTest >> testClassWithCompleteUndefinedTraitSequence [
+	
+	| undefTrait2 |
+	"We redefine the existing and try to use 2 undefinedTrait"
+	undefTrait2 := UndefinedTrait named: #TTest2.
+	traitedClass := Object
+		subclass: #SomeTraitedClass
+		uses: undefTrait + undefTrait2.
+
+	"We assert that the redefinition happened"
+	self
+		assert: (self class environment hasClassNamed: #SomeTraitedClass).
+	self
+		assert: (traitedClass class baseComposition traits includes: undefTrait).
+	self assertMetaclassClassIsTraitedMetaclass: traitedClass
+]
+
+{ #category : #tests }
+UndefinedTraitedClassTest >> testClassWithPartialUndefinedTraitSequence [
+	
+	| undefTrait2 |
+	"We redefine the existing and try to use 2 undefinedTrait"
+	undefTrait2 := UndefinedTrait named: #TTest2.
+	traitedClass := Object
+		subclass: #SomeTraitedClass
+		uses: undefTrait + self aDefinedTrait.
+
+	"We assert that the redefinition happened"
+	self
+		assert: (self class environment hasClassNamed: #SomeTraitedClass).
+	self
+		assert: (traitedClass class baseComposition traits includes: undefTrait).
+	self assertMetaclassClassIsTraitedMetaclass: traitedClass
+]
+
+{ #category : #tests }
+UndefinedTraitedClassTest >> testClassWithUndefinedTraitAlias [
+	
+	| undefTrait2 |
+	"We redefine the existing and try to use 2 undefinedTrait"
+	undefTrait2 := UndefinedTrait named: #TTest2.
+	traitedClass := Object
+		subclass: #SomeTraitedClass
+		uses: undefTrait2 @ {(#methodAlias -> #aliasedMethod)}.
+
+	"We assert that the redefinition happened"
+	self
+		assert: (self class environment hasClassNamed: #SomeTraitedClass).
+	self
+		assert: (traitedClass class baseComposition traits includes: undefTrait2).
+	self assertMetaclassClassIsTraitedMetaclass: traitedClass
+]
+
+{ #category : #tests }
+UndefinedTraitedClassTest >> testClassWithUndefinedTraitAliasInstVar [
+	
+	| undefTrait2 |
+	"We redefine the existing and try to use 2 undefinedTrait"
+	undefTrait2 := UndefinedTrait named: #TTest2.
+	traitedClass := Object
+		subclass: #SomeTraitedClass
+		uses: (undefTrait2 asTraitComposition >> (#instVarAlias -> #aliasedInstVar)).
+
+	"We assert that the redefinition happened"
+	self
+		assert: (self class environment hasClassNamed: #SomeTraitedClass).
+	self
+		assert: (traitedClass class baseComposition traits includes: undefTrait2).
+	self assertMetaclassClassIsTraitedMetaclass: traitedClass
 ]
 
 { #category : #tests }
@@ -47,6 +128,24 @@ UndefinedTraitedClassTest >> testClassWithUndefinedTraitClassClassIsTraitedMetac
  	
 	self assert: traitedClass class class equals: TraitedMetaclass.
 
+]
+
+{ #category : #tests }
+UndefinedTraitedClassTest >> testClassWithUndefinedTraitRejectInstVar [
+	
+	| undefTrait2 |
+	"We redefine the existing and try to use 2 undefinedTrait"
+	undefTrait2 := UndefinedTrait named: #TTest2.
+	traitedClass := Object
+		subclass: #SomeTraitedClass
+		uses: undefTrait2 -- #instVarNameToRemove.
+
+	"We assert that the redefinition happened"
+	self
+		assert: (self class environment hasClassNamed: #SomeTraitedClass).
+	self
+		assert: (traitedClass class baseComposition traits includes: undefTrait2).
+	self assertMetaclassClassIsTraitedMetaclass: traitedClass
 ]
 
 { #category : #tests }
