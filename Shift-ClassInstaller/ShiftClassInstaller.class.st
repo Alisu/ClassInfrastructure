@@ -279,6 +279,18 @@ ShiftClassInstaller >> remake: aClass [
 ]
 
 { #category : #building }
+ShiftClassInstaller >> remake: aClass inEnv: anEnvironment [
+
+	self class new
+		oldClass: aClass;
+		installingEnvironment: anEnvironment;
+		make: [ :anotherBuilder | 
+			anotherBuilder fillFor: aClass.
+			anotherBuilder buildEnvironment: anEnvironment.
+			builder propagateChangesTo: anotherBuilder ]
+]
+
+{ #category : #building }
 ShiftClassInstaller >> updateBindings: aBinding of: newClass [
 	newClass methods do: [ :e | e classBinding: aBinding ]
 ]

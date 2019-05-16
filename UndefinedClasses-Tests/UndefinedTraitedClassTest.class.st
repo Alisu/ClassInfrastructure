@@ -138,7 +138,7 @@ UndefinedTraitedClassTest >> testClassWithUndefinedTraitRejectInstVar [
 	undefTrait2 := UndefinedTrait named: #TTest2.
 	traitedClass := Object
 		subclass: #SomeTraitedClass
-		uses: undefTrait2 -- #instVarNameToRemove.
+		uses: (undefTrait2 asTraitComposition  -- #instVarNameToRemove).
 
 	"We assert that the redefinition happened"
 	self
