@@ -89,6 +89,12 @@ MetaclassForTraits >> isTraitExclusion [
 	^ false
 ]
 
+{ #category : #'fileIn/Out' }
+MetaclassForTraits >> isUndefined [
+	
+	^ self inheritsFrom: UndefinedTrait
+]
+
 { #category : #accessing }
 MetaclassForTraits >> name [
 	^ thisClass isNil

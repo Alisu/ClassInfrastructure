@@ -191,11 +191,14 @@ TaAbstractComposition >> copyMethod: aSelector into: aClass replacing: replacing
 	The method is only replaced if replacing is true. 
 	"
 
-	| aCompiledMethod source newMethod traitDefining |
+	| aCompiledMethod source newMethod traitDefining sourceHasChanged |
 	
 	traitDefining := self traitDefining: aSelector.
 	aCompiledMethod := self compiledMethodAt: aSelector.
 	source := self getSourceCodeOf: aCompiledMethod usingSelector: aSelector.
+	
+	"If the selectors are not the same I have to save the new source code"
+	sourceHasChanged := aSelector ~= aCompiledMethod selector.
 	
 	"Check if the method should be replaced. It is replaced if:
 	 - replacing is true.
@@ -211,7 +214,7 @@ TaAbstractComposition >> copyMethod: aSelector into: aClass replacing: replacing
 		
 	"write source to changes file only if we have it (not available during bootstrap)"	
 	
-	(source isNotNil and: [((Smalltalk globals includesKey: #SourceFiles) and: [ (Smalltalk globals at: #SourceFiles) notNil])]) ifTrue: [ 
+	((source isNotNil and: [self isSourcesPresentInSystem]) and: [sourceHasChanged]) ifTrue: [ 
 		newMethod putSource: source
 			withPreamble: [:f | f cr; nextPut: $!; nextChunkPut: 'Trait method'; cr]].
 
@@ -356,6 +359,12 @@ TaAbstractComposition >> isLocalAliasSelector: aSymbol [
 { #category : #testing }
 TaAbstractComposition >> isNotEmpty [
 	^ self isEmpty not
+]
+
+{ #category : #printing }
+TaAbstractComposition >> isSourcesPresentInSystem [
+
+	^ ((Smalltalk globals includesKey: #SourceFiles) and: [ (Smalltalk globals at: #SourceFiles) notNil])
 ]
 
 { #category : #printing }

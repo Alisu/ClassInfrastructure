@@ -17,7 +17,7 @@ UndefinedTraitBuilderEnhancer class >> isApplicableFor: aBuilder [
 	aBuilder superclass class class = TraitedMetaclass ifTrue: [ ^ true ]."
 
 		(aBuilder traitComposition asTraitComposition isNotEmpty and: [aBuilder traitComposition isUndefined] )ifTrue: [ ^ true ].
-	(aBuilder classTraitComposition asTraitComposition isNotEmpty and: [aBuilder traitComposition isUndefined] ) ifTrue: [ ^ true ].
+	(aBuilder classTraitComposition asTraitComposition isNotEmpty and: [aBuilder classTraitComposition isUndefined] ) ifTrue: [ ^ true ].
 
 	^ false
 ]

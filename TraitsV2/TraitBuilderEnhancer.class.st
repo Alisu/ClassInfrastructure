@@ -26,7 +26,7 @@ TraitBuilderEnhancer class >> isApplicableFor: aBuilder [
 	aBuilder superclass class class = TraitedMetaclass ifTrue: [ ^ true ].
 
 	(aBuilder traitComposition asTraitComposition isNotEmpty and: [aBuilder traitComposition isDefined]) ifTrue: [ ^ true ].
-	(aBuilder classTraitComposition asTraitComposition isNotEmpty and: [aBuilder traitComposition isDefined] ) ifTrue: [ ^ true ].
+	(aBuilder classTraitComposition asTraitComposition isNotEmpty and: [aBuilder classTraitComposition isDefined] ) ifTrue: [ ^ true ].
 
 	^ false
 ]
@@ -120,7 +120,6 @@ TraitBuilderEnhancer >> configureClass: newClass superclass: superclass withLayo
 { #category : #'class modifications' }
 TraitBuilderEnhancer >> configureMetaclass: newMetaclass superclass: superclass withLayoutType: aLayoutType slots: classSlots [
 	| resultingSlots |
-	
 	self validateTraitComposition: self classTraitComposition ofClass: builder oldMetaclass.
 
 	resultingSlots := self
@@ -178,6 +177,7 @@ TraitBuilderEnhancer >> isTraitedMetaclass: aBuilder [
 
 { #category : #'class modifications' }
 TraitBuilderEnhancer >> newMetaclass: aBuilder [
+
 	(aBuilder traitComposition asTraitComposition isNotEmpty or: [ aBuilder classTraitComposition asTraitComposition isNotEmpty or: [ aBuilder superclass class class = TraitedMetaclass]])
 		ifTrue: [ aBuilder metaclassClass: TraitedMetaclass ].
 				

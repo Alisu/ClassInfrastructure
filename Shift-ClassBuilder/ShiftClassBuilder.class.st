@@ -64,8 +64,7 @@ ShiftClassBuilder >> build [
 
 	self tryToFillOldClass.
 	
-	self builderEnhancer ifNil:[
-	self detectBuilderEnhancer].
+	self detectBuilderEnhancer.
 	
 	self validateSuperclass.
 	self compareWithOldClass.

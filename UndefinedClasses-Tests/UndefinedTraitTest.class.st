@@ -63,15 +63,15 @@ UndefinedTraitTest >> testDefinedTraitIsNotUndefined [
 ]
 
 { #category : #tests }
-UndefinedTraitTest >> testMetaclassOfUndefinedTraitIsDefined [
+UndefinedTraitTest >> testMetaclassOfUndefinedTraitIsUndefined [
 
-	self assert: undefTrait class isDefined
+	self assert: undefTrait class isUndefined.
 ]
 
 { #category : #tests }
-UndefinedTraitTest >> testMetaclassOfUndefinedTraitIsUndefined [
+UndefinedTraitTest >> testMetasuperclassOfUndefinedTraitIsDefined [
 
-	self assert: undefTrait class isDefined.
+	self assert: undefTrait class superclass isDefined.
 ]
 
 { #category : #tests }

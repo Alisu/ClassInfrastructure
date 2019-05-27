@@ -79,7 +79,7 @@ TraitedMetaclass >> definition [
 				nextPutAll: 'uses: ';
 				print: self traitComposition ].
 		
-		(self usesSpecialSlot or: [ Slot showSlotClassDefinition ])
+		(self slotsNeedFullDefinition or: [ Slot showSlotClassDefinition ])
 			ifFalse: [  
 						strm
 							crtab;
@@ -111,7 +111,7 @@ TraitedMetaclass >> findOriginClassOf: aMethod [
 
 	^ (self traitComposition
 		traitDefining: aMethod selector
-		ifNone: [ self traitedClassTrait traitDefining: aMethod selector ifNone: [ ^ self ] ]) innerClass
+		ifNone: [ self class traitedClassTrait traitDefining: aMethod selector ifNone: [ ^ self ] ]) innerClass
 ]
 
 { #category : #testing }
@@ -133,7 +133,7 @@ TraitedMetaclass >> findOriginMethodOf: aMethod [
 
 	^ (self traitComposition
 		traitDefining: aMethod selector
-		ifNone: [ self traitedClassTrait traitDefining: aMethod selector ifNone: [ self ] ]) 
+		ifNone: [ self class traitedClassTrait traitDefining: aMethod selector ifNone: [ self ] ]) 
 		compiledMethodAt: aMethod selector ifAbsent: [ ^ aMethod ]		
 
 ]
