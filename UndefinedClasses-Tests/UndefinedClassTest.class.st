@@ -63,6 +63,20 @@ UndefinedClassTest >> testCreateSubclassOfArbitraryExpressionReturningNilThrowsE
 ]
 
 { #category : #tests }
+UndefinedClassTest >> testCreateSubclassOfNilCreatesSubclassOfNil [
+
+	self assertClassDoesNotExist: #ColoredFoo.
+
+	self createClassFromDefinitionString: 'nil subclass: #ColoredFoo
+		instanceVariableNames: ''''
+		classVariableNames:''''
+		package: ''Box'''.
+	
+	self assertClassExist: #ColoredFoo.
+	self assert: (self class environment at: #ColoredFoo) superclass equals: nil.
+]
+
+{ #category : #tests }
 UndefinedClassTest >> testCreateSubclassOfNilCreatesSubclassOfObject [
 
 	self assertClassDoesNotExist: #ColoredFoo.
